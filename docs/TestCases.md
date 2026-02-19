@@ -9,7 +9,7 @@
 ## 2. Booking Management
 | ID     | Test Case                 | Method | Endpoint | Expected Result           | Status            |
 |:-------|:--------------------------|:-------|:---------|:--------------------------|:------------------|
-| API-02 | Get All Booking IDs       | GET    | /booking | Status code 200 (OK)      | **To Be Automated** |
+| API-02 | Get All Booking IDs       | GET    | /booking | Status code 200 (OK)      | **Automated ✅** |
 ---
 
 ### Test Details: API-01
@@ -18,5 +18,5 @@
 
 ### Test Details: API-02
 * **Objective:** Verify that the system successfully returns a list of all currently active booking IDs.
-* **Validation:** 1. Response status must be `200 OK`.
-* 2. Response body must be a JSON array containing `bookingid` objects.
+* **Validation:** Response status must be `200 OK`. 
+* Response body must be a JSON array containing `bookingid` objects.
