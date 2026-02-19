@@ -3,7 +3,7 @@
 ## 1. System Vital Signs (Smoke)
 | ID     | Test Case                 | Method | Endpoint | Expected Result           | Status            |
 |:-------|:--------------------------|:-------|:---------|:--------------------------|:------------------|
-| API-01 | Verify API System Health  | GET    | /ping    | Status code 201 (Created) | **To Be Automated** |
+| API-01 | Verify API System Health  | GET    | /ping    | Status code 201 (Created) | **Automated ✅** |
 
 ---
 ### Test Details: API-01
