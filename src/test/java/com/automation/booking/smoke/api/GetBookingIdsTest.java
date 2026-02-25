@@ -7,8 +7,6 @@ import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
-import static org.testng.Assert.*;
-
 public class GetBookingIdsTest extends ApiBaseTest {
 
     @Test(groups = {"smoke", "booking"}, description = "API-02: Get All Booking IDs")

@@ -19,7 +19,6 @@ public class ConfigReader {
             throw new RuntimeException("Could not properties file");
         }
     }
-
     public static String getProperty(String key){
         return properties.getProperty(key);
     }
