@@ -25,7 +25,7 @@
 
 | ID     | Test Case            | Method | Endpoint      | Expected Result           | Status          |
 |:-------|:---------------------|:-------|:--------------|:--------------------------|:----------------|
-| API-03 | Get Booking By ID    | GET    | /booking/{id} | Status code 200 (OK)      | To Be Automated |
+| API-03 | Get Booking By ID    | GET    | /booking/{id} | Status code 200 (OK)      | **Automated ✅** |
 
 ---
 
