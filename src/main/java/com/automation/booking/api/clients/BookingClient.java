@@ -17,4 +17,13 @@ public class BookingClient {
                     .get(BOOKING_ENDPOINT);
     }
 
+    public Response getBookingById(int id){
+        return RestAssured
+                .given()
+                    .baseUri(BASE_URL)
+                .when()
+                    .get(BOOKING_ENDPOINT + "/" + id);
+
+    }
+
 }
