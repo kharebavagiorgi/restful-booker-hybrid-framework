@@ -35,3 +35,18 @@
 * **Validation:** * Response status must be `200 OK`.
     * Response body must be a JSON object containing specific fields: `firstname`, `lastname`, `totalprice`, `depositpaid`, and a `bookingdates` nested object.
 * **Logic:** This test validates the data integrity of a single record, ensuring all mandatory fields are present and of the correct data type (e.g., `totalprice` as a number).
+
+
+| ID     | Test Case             | Method | Endpoint | Expected Result           | Status              |
+|:-------|:----------------------|:-------|:---------|:--------------------------|:--------------------|
+| API-04 | Create Booking Record | POST   | /booking | Status code 200 (OK)      | **To Be Automated** |
+
+---
+
+### Test Details: API-03
+* **Objective:** Verify that the system can successfully create a new booking record and return a unique identifier.
+* **Prerequisite:** Requires a JSON body containing firstname, lastname, totalprice, depositpaid, bookingdates (nested object), and additionalneeds.
+* **Validation:** * Response status must be `200 OK`.
+  * Response body must contain a generated bookingid.
+  * The returned booking object must contain all fields sent in the request.
+* **Logic:** This test validates the data integrity of a single record, ensuring all mandatory fields are present and of the correct data type (e.g., `totalprice` as a number).

@@ -26,4 +26,13 @@ public class BookingClient {
 
     }
 
+    public Response createBooking(Object body){
+        return RestAssured
+                .given()
+                    .header("Content-Type", "application/json")
+                    .header("Accept", "application/json")
+                    .body(body)
+                .when()
+                    .post(BASE_URL + BOOKING_ENDPOINT);
+    }
 }
