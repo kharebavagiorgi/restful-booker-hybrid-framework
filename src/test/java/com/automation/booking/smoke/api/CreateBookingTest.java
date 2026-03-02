@@ -1,6 +1,9 @@
 package com.automation.booking.smoke.api;
 
 import com.automation.booking.base.ApiBaseTest;
+import com.automation.booking.model.Booking;
+import com.automation.booking.model.BookingDates;
+import com.automation.booking.model.BookingResponse;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
@@ -16,30 +19,33 @@ public class CreateBookingTest extends ApiBaseTest {
 
         SoftAssert softAssert = new SoftAssert();
 
-        Map<String, String> bookingDates = new HashMap<>();
-        bookingDates.put("checkin", "2026-01-01");
-        bookingDates.put("checkout", "2026-01-06");
+        BookingDates bookingDates = BookingDates.builder()
+                .checkin("2026-01-01")
+                .checkout("2026-01-06")
+                .build();
 
-        Map<String, Object> body = new HashMap<>();
-        body.put("firstname", "Giorgi");
-        body.put("lastname", "Kharebava");
-        body.put("totalprice", 200);
-        body.put("depositpaid", true);
-        body.put("bookingdates", bookingDates);
-        body.put("additionalneeds", "breakfast");
+        Booking bookingRequest = Booking.builder()
+                .firstname("Giorgi")
+                .lastname("Kharebava")
+                .totalprice(200)
+                .depositpaid(true)
+                .bookingdates(bookingDates)
+                .additionalneeds("breakfast")
+                .build();
 
-        Response response = bookingClient.createBooking(body);
-        JsonPath jsonPath = response.jsonPath();
+        Response response = bookingClient.createBooking(bookingRequest);
+        BookingResponse actualResponse = response.as(BookingResponse.class);
 
         softAssert.assertEquals(response.getStatusCode(), 200, "Expected status code 200");
 
-        softAssert.assertNotNull(jsonPath.get("bookingid"), "The 'bookingid' must not be null");
-        softAssert.assertEquals(jsonPath.get("booking.firstname"), "Giorgi", "Firstname mismatch");
-        softAssert.assertEquals(jsonPath.get("booking.lastname"), "Kharebava", "Lastname mismatch");
-        softAssert.assertEquals(jsonPath.getInt("booking.totalprice"), 200, "Price mismatch");
-        softAssert.assertTrue(jsonPath.getBoolean("booking.depositpaid"), "Deposit status should be true");
-        softAssert.assertEquals(jsonPath.getString("booking.bookingdates.checkin"), "2026-01-01", "Check-in date mismatch");
-        softAssert.assertEquals(jsonPath.getString("booking.bookingdates.checkout"), "2026-01-06", "Check-out date mismatch");
+        softAssert.assertNotNull(actualResponse.getBookingid(),
+                "The 'bookingid' must not be null");
+        softAssert.assertEquals(actualResponse.getBooking().getFirstname(), bookingRequest.getFirstname(), "Firstname mismatch");
+        softAssert.assertEquals(actualResponse.getBooking().getLastname(), bookingRequest.getLastname(), "Lastname mismatch");
+        softAssert.assertEquals(actualResponse.getBooking().getTotalprice(), bookingRequest.getTotalprice(), "Price mismatch");
+        softAssert.assertTrue(actualResponse.getBooking().isDepositpaid(), "Deposit status should be true");
+        softAssert.assertEquals(actualResponse.getBooking().getBookingdates().getCheckin(), bookingRequest.getBookingdates().getCheckin(), "Check-in date mismatch");
+        softAssert.assertEquals(actualResponse.getBooking().getBookingdates().getCheckout(), bookingRequest.getBookingdates().getCheckout(), "Check-out date mismatch");
 
         softAssert.assertAll();
     }
