@@ -39,7 +39,7 @@
 
 | ID     | Test Case             | Method | Endpoint | Expected Result           | Status              |
 |:-------|:----------------------|:-------|:---------|:--------------------------|:--------------------|
-| API-04 | Create Booking Record | POST   | /booking | Status code 200 (OK)      | **To Be Automated** |
+| API-04 | Create Booking Record | POST   | /booking | Status code 200 (OK)      | **Automated**       |
 
 ---
 
@@ -50,3 +50,18 @@
   * Response body must contain a generated bookingid.
   * The returned booking object must contain all fields sent in the request.
 * **Logic:** This test validates the data integrity of a single record, ensuring all mandatory fields are present and of the correct data type (e.g., `totalprice` as a number).
+
+
+## Mobile Automation Test Cases
+
+| ID     | Test Case             | Platform | Browser | Expected Result           | Status              |
+|:-------|:----------------------|:---------|:--------|:--------------------------|:--------------------|
+| MOB-01 | Verify Mobile Web Landing | Android (Pixel 8)         | Chrome  | "Book Now" link is visible and clickable      | **Automated**       |
+
+### TC-M1: Verify Booking Site Responsiveness (Mobile Web)
+**Objective:** Ensure the Restful-Booker website loads correctly on a mobile device.
+1. **Launch** Chrome Browser on Pixel 8.
+2. **Navigate** to `https://automationintesting.online/` (The UI version of API).
+3. **Verify** the "Book Now" button is visible.
+4. **Capture** a screenshot of the mobile landing page.
+   **Expected Result:** The site scales correctly for mobile and the booking button is functional.

@@ -22,7 +22,7 @@ public class GetBookingIdsTest extends ApiBaseTest {
         Assert.assertNotNull(bookingIds,"Booking IDs list is null");
 
         softAssert.assertFalse(bookingIds.isEmpty(), "Booking IDs list is empty!");
-        softAssert.assertNotNull(bookingIds.getFirst().getBookingid(), "First object in list is missing an ID");
+        softAssert.assertNotNull(bookingIds.get(0).getBookingid(), "First object in list is missing an ID");
 
         softAssert.assertAll();
     }

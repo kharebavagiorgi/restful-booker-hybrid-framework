@@ -2,7 +2,6 @@ package com.automation.booking.smoke.api;
 
 import com.automation.booking.base.ApiBaseTest;
 import com.automation.booking.model.Booking;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;

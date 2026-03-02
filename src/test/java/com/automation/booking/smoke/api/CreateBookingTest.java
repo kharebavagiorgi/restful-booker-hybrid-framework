@@ -4,13 +4,9 @@ import com.automation.booking.base.ApiBaseTest;
 import com.automation.booking.model.Booking;
 import com.automation.booking.model.BookingDates;
 import com.automation.booking.model.BookingResponse;
-import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class CreateBookingTest extends ApiBaseTest {
 
