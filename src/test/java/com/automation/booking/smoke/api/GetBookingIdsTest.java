@@ -1,7 +1,9 @@
 package com.automation.booking.smoke.api;
 
 import com.automation.booking.base.ApiBaseTest;
+import com.automation.booking.model.BookingResponse;
 import io.restassured.response.Response;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -15,12 +17,13 @@ public class GetBookingIdsTest extends ApiBaseTest {
         SoftAssert softAssert = new SoftAssert();
         softAssert.assertEquals(response.getStatusCode(), 200,
                 "Getting All Booking IDs failed, Expected 200 but received " + response.getStatusCode());
-        List<Object> bookingIds = response.jsonPath().getList("");
-        softAssert.assertNotNull(bookingIds,"Booking IDs list is null");
+        List<BookingResponse> bookingIds = response.jsonPath().getList("", BookingResponse.class);
 
-        if(bookingIds != null){
-            softAssert.assertFalse(bookingIds.isEmpty(), "Booking IDs list is empty!");
-        }
+        Assert.assertNotNull(bookingIds,"Booking IDs list is null");
+
+        softAssert.assertFalse(bookingIds.isEmpty(), "Booking IDs list is empty!");
+        softAssert.assertNotNull(bookingIds.getFirst().getBookingid(), "First object in list is missing an ID");
+
         softAssert.assertAll();
     }
 }

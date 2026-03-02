@@ -43,7 +43,7 @@ public class CreateBookingTest extends ApiBaseTest {
         softAssert.assertEquals(actualResponse.getBooking().getFirstname(), bookingRequest.getFirstname(), "Firstname mismatch");
         softAssert.assertEquals(actualResponse.getBooking().getLastname(), bookingRequest.getLastname(), "Lastname mismatch");
         softAssert.assertEquals(actualResponse.getBooking().getTotalprice(), bookingRequest.getTotalprice(), "Price mismatch");
-        softAssert.assertTrue(actualResponse.getBooking().isDepositpaid(), "Deposit status should be true");
+        softAssert.assertTrue(actualResponse.getBooking().getDepositpaid(), "Deposit status should be true");
         softAssert.assertEquals(actualResponse.getBooking().getBookingdates().getCheckin(), bookingRequest.getBookingdates().getCheckin(), "Check-in date mismatch");
         softAssert.assertEquals(actualResponse.getBooking().getBookingdates().getCheckout(), bookingRequest.getBookingdates().getCheckout(), "Check-out date mismatch");
 

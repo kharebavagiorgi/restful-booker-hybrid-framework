@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 public class Booking {
     private String firstname;
     private String lastname;
-    private int totalprice;
-    private boolean depositpaid;
+    private Integer totalprice;
+    private Boolean depositpaid;
     private BookingDates bookingdates;
     private String additionalneeds;
 
