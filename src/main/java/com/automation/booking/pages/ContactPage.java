@@ -26,17 +26,30 @@ public class ContactPage extends BasePage{
     }
 
     public void fillForm(String name, String email, String phone, String subject, String description){
-        driver.findElement(this.name).sendKeys(name);
-        driver.findElement(this.email).sendKeys(email);
-        driver.findElement(this.phone).sendKeys(phone);
-        driver.findElement(this.subject).sendKeys(subject);
-        driver.findElement(this.description).sendKeys(description);
+        WebElement nameField = driver.findElement(this.name);
+        nameField.clear();
+        nameField.sendKeys(name);
+        WebElement emailField = driver.findElement(this.email);
+        emailField.clear();
+        emailField.sendKeys(email);
+        WebElement phoneField = driver.findElement(this.phone);
+        phoneField.clear();
+        phoneField.sendKeys(phone);
+        WebElement subjectField = driver.findElement(this.subject);
+        subjectField.clear();
+        subjectField.sendKeys(subject);
+        WebElement descriptionField = driver.findElement(this.description);
+        descriptionField.clear();
+        descriptionField.sendKeys(description);
     }
 
     public void clickSubmit(){
-        WebElement submitButton = driver.findElement(submit);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(submitButton).click().perform();
+        WebElement submitButton = wait.until(ExpectedConditions.elementToBeClickable(submit));
+        new Actions(driver)
+                .scrollToElement(submitButton)
+                .moveToElement(submitButton)
+                .click()
+                .perform();
     }
 
     public List<String> getErrors(){
