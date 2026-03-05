@@ -29,13 +29,21 @@ public class ContactPageTest extends UIBaseTest {
         };
     }
 
-    @DataProvider(name = "invalidContactData")
+    @DataProvider(name = "invalidEmailContactData")
     public Object[][] getInvalidContactData(){
         return new Object[][]{
                 { "George", "george@", "123456789012", "Payment Issue",
                         "Message from George regarding payment.", "must be a well-formed email address" },
                 { "Anna", "somewhere.com", "098765432109", "Booking Inquiry",
                         "Anna wants to know about room availability.", "must be a well-formed email address" }
+        };
+    }
+
+    @DataProvider(name = "invalidNumberContactData")
+    public Object[][] getInvalidNumberContactData(){
+        return new Object[][]{
+                { "George", "george@test.com", "11", "Payment Issue", "Message from George regarding payment." },
+                { "Anna", "anna@somewhere.com", "8888888888888888888888", "Booking Inquiry", "Anna wants to know about room availability." }
         };
     }
 
@@ -65,7 +73,7 @@ public class ContactPageTest extends UIBaseTest {
 
     @Test(priority = 2,
             description = "UI-02: Submit with Invalid Email Format",
-            dataProvider = "invalidContactData")
+            dataProvider = "invalidEmailContactData")
     public void verifyInvalidEmailFails(String name, String email, String phone,
                                         String subject, String description, String expectedErrorMessage){
         contactPage.fillForm(name, email, phone, subject, description);
@@ -81,17 +89,35 @@ public class ContactPageTest extends UIBaseTest {
             dataProvider = "errorMessageData")
     public void verifyEmptyFormValidation(String[] expectedErrors){
         contactPage.clickSubmit();
+
+        List<String> errorMessages = contactPage.getErrors();
+
+        SoftAssert softAssert = new SoftAssert();
+        softAssert.assertEquals(errorMessages.size(), expectedErrors.length,
+                "Number of error messages does not match");
+        for(String error : expectedErrors){
+            softAssert.assertTrue(errorMessages.contains(error), error + " was not found");
+        }
+        softAssert.assertAll();
+    }
+
+    @Test(priority = 4,
+            description = "UI-04: Sumbit with invalid number",
+            dataProvider = "invalidNumberContactData")
+    public void verifyInvalidNumberValidation(String name, String email, String phone, String subject,
+                                              String description){
+        contactPage.fillForm(name, email, phone, subject, description);
+        contactPage.clickSubmit();
+
         List<String> errorMessages = contactPage.getErrors();
 
         SoftAssert softAssert = new SoftAssert();
 
-        softAssert.assertEquals(errorMessages.size(), expectedErrors.length,
-                "Number of error messages does not match");
+        softAssert.assertEquals(errorMessages.size(), 1,
+                "Expected exactly 1 error for phone length, but found: " + errorMessages.size());
 
-        for(String error : expectedErrors){
-            softAssert.assertTrue(errorMessages.contains(error), error + " was not found");
-        }
-
+        softAssert.assertTrue(errorMessages.contains("Phone must be between 11 and 21 characters."),
+                "The specific phone length validation message was missing or incorrect!");
         softAssert.assertAll();
     }
 }
