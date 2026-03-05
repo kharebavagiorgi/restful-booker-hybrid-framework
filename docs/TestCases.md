@@ -72,6 +72,6 @@
 ** ID ** ,Test Case,Layer,Element/Component,Expected Result,Status
 1. UI-01,Successful Contact Submission,UI,Contact Form,Success message displayed, Automated ✅
 2. UI-02,Submit with Invalid Email Format,UI,Email Input Field,Validation error (well-formed), Automated ✅
-3. UI-03,Submit with Empty Mandatory Fields,UI,Form Validation,Multiple error alerts appear, Needs to be automated
+3. UI-03,Submit with Empty Mandatory Fields,UI,Form Validation,Multiple error alerts appear, Automated ✅
 4. UI-04,Phone Number Length Validation,UI,Phone Input Field,Phone length error displayed, Needs to be automated
 5. UI-05	Verify Branding Logo Visibility	UI	Header/Logo	Hotel logo is displayed, Needs to be automated

@@ -7,6 +7,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
 
 import java.util.List;
 
@@ -38,6 +39,21 @@ public class ContactPageTest extends UIBaseTest {
         };
     }
 
+    @DataProvider(name = "errorMessageData")
+    public Object[][] getErrorMessageData(){
+        String[] expectedErrors =
+                {"Message must be between 20 and 2000 characters.",
+                "Phone may not be blank",
+                "Email may not be blank",
+                "Phone must be between 11 and 21 characters.",
+                "Subject must be between 5 and 100 characters.",
+                "Message may not be blank",
+                "Name may not be blank",
+                "Subject may not be blank"};
+
+        return new Object[][]{{expectedErrors}};
+    }
+
     @Test(priority = 1,
             description = "UI-01: Submit form with valid data",
             dataProvider = "validContactData")
@@ -58,5 +74,24 @@ public class ContactPageTest extends UIBaseTest {
         List<String> errors = contactPage.getErrors();
         Assert.assertTrue(errors.contains(expectedErrorMessage),
                 "Expected error message not found for email: " + email);
+    }
+
+    @Test(priority = 3,
+            description = "UI-03: Submit with empty mandatory fields",
+            dataProvider = "errorMessageData")
+    public void verifyEmptyFormValidation(String[] expectedErrors){
+        contactPage.clickSubmit();
+        List<String> errorMessages = contactPage.getErrors();
+
+        SoftAssert softAssert = new SoftAssert();
+
+        softAssert.assertEquals(errorMessages.size(), expectedErrors.length,
+                "Number of error messages does not match");
+
+        for(String error : expectedErrors){
+            softAssert.assertTrue(errorMessages.contains(error), error + " was not found");
+        }
+
+        softAssert.assertAll();
     }
 }
