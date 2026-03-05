@@ -1,8 +1,10 @@
 package com.automation.booking.smoke.ui;
 
 import com.automation.booking.base.UIBaseTest;
+import com.automation.booking.model.ui.ContactModel;
 import com.automation.booking.pages.ContactPage;
 import com.automation.booking.utils.ConfigReader;
+import com.automation.booking.utils.JsonReader;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.DataProvider;
@@ -21,52 +23,51 @@ public class ContactPageTest extends UIBaseTest {
         contactPage = new ContactPage(driver);
     }
 
-    @DataProvider(name = "validContactData")
-    public Object[][] getValidContactData(){
-        return new Object[][]{
-                { "George", "george@test.com", "123456789012", "Payment Issue", "Message from George regarding payment." },
-                { "Anna", "anna@somewhere.com", "098765432109", "Booking Inquiry", "Anna wants to know about room availability." }
-        };
+    private void validateErrors(List<String> actual, List<String> expected, SoftAssert softAssert) {
+        if (expected != null && !expected.isEmpty()) {
+            softAssert.assertEquals(actual.size(), expected.size(), "Number of error messages does not match!");
+            for (String error : expected) {
+                softAssert.assertTrue(actual.contains(error), "Expected error NOT found: [" + error + "]");
+            }
+        } else {
+            softAssert.fail("Test Data Error: 'expectedErrors' list is missing or empty in JSON.");
+        }
+    }
+
+    private Object[][] mapToDataProvider(String sectionName){
+        List<ContactModel> dataList = JsonReader.getContactData(sectionName);
+        Object[][] data = new Object[dataList.size()][1];
+        for(int i = 0; i < dataList.size(); i++){
+            data[i][0] = dataList.get(i);
+        }
+        return data;
+    }
+
+    @DataProvider(name = "validContactJson")
+    public Object[][] getValidContactJson(){
+        return mapToDataProvider("validContactData");
     }
 
     @DataProvider(name = "invalidEmailContactData")
     public Object[][] getInvalidContactData(){
-        return new Object[][]{
-                { "George", "george@", "123456789012", "Payment Issue",
-                        "Message from George regarding payment.", "must be a well-formed email address" },
-                { "Anna", "somewhere.com", "098765432109", "Booking Inquiry",
-                        "Anna wants to know about room availability.", "must be a well-formed email address" }
-        };
-    }
-
-    @DataProvider(name = "invalidNumberContactData")
-    public Object[][] getInvalidNumberContactData(){
-        return new Object[][]{
-                { "George", "george@test.com", "11", "Payment Issue", "Message from George regarding payment." },
-                { "Anna", "anna@somewhere.com", "8888888888888888888888", "Booking Inquiry", "Anna wants to know about room availability." }
-        };
+        return mapToDataProvider("invalidEmailData");
     }
 
     @DataProvider(name = "errorMessageData")
     public Object[][] getErrorMessageData(){
-        String[] expectedErrors =
-                {"Message must be between 20 and 2000 characters.",
-                "Phone may not be blank",
-                "Email may not be blank",
-                "Phone must be between 11 and 21 characters.",
-                "Subject must be between 5 and 100 characters.",
-                "Message may not be blank",
-                "Name may not be blank",
-                "Subject may not be blank"};
+        return mapToDataProvider("emptyMandatoryData");
+    }
 
-        return new Object[][]{{expectedErrors}};
+    @DataProvider(name = "invalidNumberContactData")
+    public Object[][] getInvalidNumberContactData(){
+        return mapToDataProvider("invalidNumberData");
     }
 
     @Test(priority = 1,
             description = "UI-01: Submit form with valid data",
-            dataProvider = "validContactData")
-    public void verifyValidSubmission(String name, String email, String phone, String subject, String description){
-        contactPage.fillForm(name, email, phone, subject, description);
+            dataProvider = "validContactJson")
+    public void verifyValidSubmission(ContactModel user){
+        contactPage.fillForm(user.getName(), user.getEmail(), user.getPhone(), user.getSubject(), user.getDescription());
         contactPage.clickSubmit();
         Assert.assertTrue(contactPage.isSuccessMessageDisplayed(), "Success message is not displayed.");
     }
@@ -74,50 +75,51 @@ public class ContactPageTest extends UIBaseTest {
     @Test(priority = 2,
             description = "UI-02: Submit with Invalid Email Format",
             dataProvider = "invalidEmailContactData")
-    public void verifyInvalidEmailFails(String name, String email, String phone,
-                                        String subject, String description, String expectedErrorMessage){
-        contactPage.fillForm(name, email, phone, subject, description);
+    public void verifyInvalidEmailFails(ContactModel user){
+        contactPage.fillForm(user.getName(), user.getEmail(), user.getPhone(), user.getSubject(),
+                user.getDescription());
         contactPage.clickSubmit();
 
-        List<String> errors = contactPage.getErrors();
-        Assert.assertTrue(errors.contains(expectedErrorMessage),
-                "Expected error message not found for email: " + email);
+        List<String> actualErrorMessageList = contactPage.getErrors();
+        List<String> expectedErrorMessageList = user.getExpectedErrors();
+
+        SoftAssert softAssert = new SoftAssert();
+
+        validateErrors(actualErrorMessageList, expectedErrorMessageList, softAssert);
+
+        softAssert.assertAll();
     }
 
     @Test(priority = 3,
             description = "UI-03: Submit with empty mandatory fields",
             dataProvider = "errorMessageData")
-    public void verifyEmptyFormValidation(String[] expectedErrors){
+    public void verifyEmptyFormValidation(ContactModel user){
         contactPage.clickSubmit();
 
-        List<String> errorMessages = contactPage.getErrors();
+        List<String> actualErrorMessageList = contactPage.getErrors();
+        List<String> expectedErrorMessageList = user.getExpectedErrors();
 
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(errorMessages.size(), expectedErrors.length,
-                "Number of error messages does not match");
-        for(String error : expectedErrors){
-            softAssert.assertTrue(errorMessages.contains(error), error + " was not found");
-        }
+        validateErrors(actualErrorMessageList, expectedErrorMessageList, softAssert);
+
         softAssert.assertAll();
     }
 
     @Test(priority = 4,
             description = "UI-04: Sumbit with invalid number",
             dataProvider = "invalidNumberContactData")
-    public void verifyInvalidNumberValidation(String name, String email, String phone, String subject,
-                                              String description){
-        contactPage.fillForm(name, email, phone, subject, description);
+    public void verifyInvalidNumberValidation(ContactModel user){
+        contactPage.fillForm(user.getName(), user.getEmail(), user.getPhone(), user.getSubject(),
+                user.getDescription());
         contactPage.clickSubmit();
 
-        List<String> errorMessages = contactPage.getErrors();
+        List<String> actualErrorMessageList = contactPage.getErrors();
+        List<String> expectedErrorMessageList = user.getExpectedErrors();
 
         SoftAssert softAssert = new SoftAssert();
 
-        softAssert.assertEquals(errorMessages.size(), 1,
-                "Expected exactly 1 error for phone length, but found: " + errorMessages.size());
+        validateErrors(actualErrorMessageList, expectedErrorMessageList, softAssert);
 
-        softAssert.assertTrue(errorMessages.contains("Phone must be between 11 and 21 characters."),
-                "The specific phone length validation message was missing or incorrect!");
         softAssert.assertAll();
     }
 }

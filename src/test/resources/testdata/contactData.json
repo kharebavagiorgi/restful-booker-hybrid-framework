@@ -1,0 +1,73 @@
+{
+  "validContactData": [
+    {
+      "name": "George",
+      "email": "george@test.com",
+      "phone": "123456789012",
+      "subject": "Payment Issue",
+      "description": "Message from George regarding payment."
+    },
+    {
+      "name": "Anna",
+      "email": "anna@somewhere.com",
+      "phone": "098765432109",
+      "subject": "Booking Inquiry",
+      "description": "Anna wants to know about room availability."
+    }
+  ],
+  "invalidEmailData": [
+    {
+      "name": "George",
+      "email": "george@",
+      "phone": "123456789012",
+      "subject": "Payment Issue",
+      "description": "Message from George regarding payment.",
+      "expectedErrors": ["must be a well-formed email address"]
+    },
+    {
+      "name": "Anna",
+      "email": "somewhere.com",
+      "phone": "098765432109",
+      "subject": "Booking Inquiry",
+      "description": "Anna wants to know about room availability.",
+      "expectedErrors": ["must be a well-formed email address"]
+    }
+  ],
+  "invalidNumberData": [
+    {
+      "name": "George",
+      "email": "george@test.com",
+      "phone": "11",
+      "subject": "Payment Issue",
+      "description": "Message from George regarding payment.",
+      "expectedErrors": ["Phone must be between 11 and 21 characters."]
+    },
+    {
+      "name": "Anna",
+      "email": "anna@somewhere.com",
+      "phone": "8888888888888888888888",
+      "subject": "Booking Inquiry",
+      "description": "Anna wants to know about room availability.",
+      "expectedErrors": ["Phone must be between 11 and 21 characters."]
+    }
+  ],
+  "emptyMandatoryData": [
+    {
+      "name": "",
+      "email": "",
+      "phone": "",
+      "subject": "",
+      "message": "",
+      "expectedErrors": [
+        "Message must be between 20 and 2000 characters.",
+        "Phone may not be blank",
+        "Email may not be blank",
+        "Phone must be between 11 and 21 characters.",
+        "Subject must be between 5 and 100 characters.",
+        "Message may not be blank",
+        "Name may not be blank",
+        "Subject may not be blank"
+      ]
+    }
+  ]
+}
