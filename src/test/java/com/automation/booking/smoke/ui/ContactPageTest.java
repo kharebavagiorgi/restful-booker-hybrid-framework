@@ -64,6 +64,7 @@ public class ContactPageTest extends UIBaseTest {
     }
 
     @Test(priority = 1,
+            groups = "smoke",
             description = "UI-01: Submit form with valid data",
             dataProvider = "validContactJson")
     public void verifyValidSubmission(ContactModel user){
@@ -73,6 +74,7 @@ public class ContactPageTest extends UIBaseTest {
     }
 
     @Test(priority = 2,
+            groups = "smoke",
             description = "UI-02: Submit with Invalid Email Format",
             dataProvider = "invalidEmailContactData")
     public void verifyInvalidEmailFails(ContactModel user){
@@ -91,6 +93,7 @@ public class ContactPageTest extends UIBaseTest {
     }
 
     @Test(priority = 3,
+            groups = "smoke",
             description = "UI-03: Submit with empty mandatory fields",
             dataProvider = "errorMessageData")
     public void verifyEmptyFormValidation(ContactModel user){
@@ -106,6 +109,7 @@ public class ContactPageTest extends UIBaseTest {
     }
 
     @Test(priority = 4,
+            groups = "smoke",
             description = "UI-04: Sumbit with invalid number",
             dataProvider = "invalidNumberContactData")
     public void verifyInvalidNumberValidation(ContactModel user){
@@ -119,6 +123,18 @@ public class ContactPageTest extends UIBaseTest {
         SoftAssert softAssert = new SoftAssert();
 
         validateErrors(actualErrorMessageList, expectedErrorMessageList, softAssert);
+
+        softAssert.assertAll();
+    }
+
+    @Test(priority = 5,
+            groups = "smoke",
+            description = "UI-05: Cheking logo visibility")
+    public void verifyLogoVisibility(){
+        SoftAssert softAssert = new SoftAssert();
+
+        softAssert.assertTrue(contactPage.isLogoDisplayed(), "Logo is not visible");
+        softAssert.assertEquals(contactPage.getLogoText(), "Shady Meadows B&B");
 
         softAssert.assertAll();
     }
