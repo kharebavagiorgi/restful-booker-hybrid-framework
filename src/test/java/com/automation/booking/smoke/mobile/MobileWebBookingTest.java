@@ -3,7 +3,6 @@ package com.automation.booking.smoke.mobile;
 import com.automation.booking.base.MobileBaseTest;
 import io.appium.java_client.AppiumBy;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;

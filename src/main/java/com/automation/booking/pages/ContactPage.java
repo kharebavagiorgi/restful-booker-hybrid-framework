@@ -1,7 +1,6 @@
 package com.automation.booking.pages;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -12,14 +11,14 @@ import java.util.stream.Collectors;
 
 public class ContactPage extends BasePage{
 
-    private By name = By.id("name");
-    private By email = By.id("email");
-    private By phone = By.id("phone");
-    private By subject = By.id("subject");
-    private By description = By.id("description");
-    private By submit = By.xpath("//button[text() = 'Submit']");
-    private By errorList = By.cssSelector(".alert-danger p");
-    private By successMessage = By.xpath("//h3[contains(text(), 'Thanks for getting in touch')]");
+    private final By name = By.id("name");
+    private final By email = By.id("email");
+    private final By phone = By.id("phone");
+    private final By subject = By.id("subject");
+    private final By description = By.id("description");
+    private final By submit = By.xpath("//button[text() = 'Submit']");
+    private final By errorList = By.cssSelector(".alert-danger p");
+    private final By successMessage = By.xpath("//h3[contains(text(), 'Thanks for getting in touch')]");
 
     public ContactPage(WebDriver driver){
         super(driver);
