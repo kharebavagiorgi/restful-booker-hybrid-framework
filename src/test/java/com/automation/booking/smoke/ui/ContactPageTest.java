@@ -133,8 +133,8 @@ public class ContactPageTest extends UIBaseTest {
     public void verifyLogoVisibility(){
         SoftAssert softAssert = new SoftAssert();
 
-        softAssert.assertTrue(contactPage.isLogoDisplayed(), "Logo is not visible");
-        softAssert.assertEquals(contactPage.getLogoText(), "Shady Meadows B&B");
+        softAssert.assertTrue(contactPage.header().isLogoDisplayed(), "Logo is not visible");
+        softAssert.assertEquals(contactPage.header().getLogoText(), "Shady Meadows B&B");
 
         softAssert.assertAll();
     }
