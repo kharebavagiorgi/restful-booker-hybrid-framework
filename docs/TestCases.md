@@ -1,77 +1,49 @@
-# API Test Suite: Health Checks
+# 🏨 Restful-Booker Framework: Full-Stack Test Suite
 
-## 1. System Vital Signs (Smoke)
-| ID     | Test Case                 | Method | Endpoint | Expected Result           | Status            |
-|:-------|:--------------------------|:-------|:---------|:--------------------------|:------------------|
-| API-01 | Verify API System Health  | GET    | /ping    | Status code 201 (Created) | **Automated ✅** |
----
-
-## 2. Booking Management
-| ID     | Test Case                 | Method | Endpoint | Expected Result           | Status            |
-|:-------|:--------------------------|:-------|:---------|:--------------------------|:------------------|
-| API-02 | Get All Booking IDs       | GET    | /booking | Status code 200 (OK)      | **Automated ✅** |
----
-
-### Test Details: API-01
-* **Objective:** Ensure the Restful-Booker environment is up and responding to requests.
-* **Note:** Per the official API documentation, this endpoint returns `201 Created` rather than the standard `200 OK` to signal the service is live.
-
-### Test Details: API-02
-* **Objective:** Verify that the system successfully returns a list of all currently active booking IDs.
-* **Validation:** Response status must be `200 OK`. 
-* Response body must be a JSON array containing `bookingid` objects.
-
-## 2. Booking Management (Continued)
-
-| ID     | Test Case            | Method | Endpoint      | Expected Result           | Status          |
-|:-------|:---------------------|:-------|:--------------|:--------------------------|:----------------|
-| API-03 | Get Booking By ID    | GET    | /booking/{id} | Status code 200 (OK)      | **Automated ✅** |
+This document serves as the live backlog and status tracker for the Automated Test Suite, covering API, UI, and Mobile layers.
 
 ---
 
-### Test Details: API-03
-* **Objective:** Verify that the system can retrieve the full details of a specific booking record.
-* **Prerequisite:** Requires a valid `bookingid`. The test dynamically fetches an ID from the list provided by **API-02** to ensure data availability.
-* **Validation:** * Response status must be `200 OK`.
-    * Response body must be a JSON object containing specific fields: `firstname`, `lastname`, `totalprice`, `depositpaid`, and a `bookingdates` nested object.
-* **Logic:** This test validates the data integrity of a single record, ensuring all mandatory fields are present and of the correct data type (e.g., `totalprice` as a number).
+## 🛰️ 1. API Test Suite: Health & Bookings
+*Layer: Backend (Rest-Assured)*
 
-
-| ID     | Test Case             | Method | Endpoint | Expected Result           | Status              |
-|:-------|:----------------------|:-------|:---------|:--------------------------|:--------------------|
-| API-04 | Create Booking Record | POST   | /booking | Status code 200 (OK)      | **Automated**       |
+| ID | Test Case | Method | Endpoint | Expected Result | Status |
+|:---|:---|:---:|:---|:---|:---|
+| **API-01** | Verify API System Health | GET | `/ping` | Status code 201 (Created) | Automated ✅ |
+| **API-02** | Get All Booking IDs | GET | `/booking` | Returns JSON array of IDs | Automated ✅ |
+| **API-03** | Get Booking By ID | GET | `/booking/{id}` | Returns valid JSON object | Automated ✅ |
+| **API-04** | Create Booking Record | POST | `/booking` | 200 OK & returns `bookingid` | Automated ✅ |
 
 ---
 
-### Test Details: API-03
-* **Objective:** Verify that the system can successfully create a new booking record and return a unique identifier.
-* **Prerequisite:** Requires a JSON body containing firstname, lastname, totalprice, depositpaid, bookingdates (nested object), and additionalneeds.
-* **Validation:** * Response status must be `200 OK`.
-  * Response body must contain a generated bookingid.
-  * The returned booking object must contain all fields sent in the request.
-* **Logic:** This test validates the data integrity of a single record, ensuring all mandatory fields are present and of the correct data type (e.g., `totalprice` as a number).
+## 🖥️ 2. UI Automation: Contact & Regression
+*Layer: Web (Selenium + Java)*
 
+### 📧 Contact Management
+| ID | Test Case | Component | Expected Result | Status |
+|:---|:---|:---|:---|:---|
+| **UI-01** | Successful Contact Submission | Contact Form | Success message displayed | Automated ✅ |
+| **UI-02** | Invalid Email Format | Email Field | Validation error displayed | Automated ✅ |
+| **UI-03** | Empty Mandatory Fields | Form | Multiple error alerts appear | Automated ✅ |
+| **UI-04** | Phone Number Length | Phone Field | Length error displayed | Automated ✅ |
+| **UI-05** | Verify Branding Logo | Header/Logo | Hotel logo is displayed | Automated ✅ |
 
-## Mobile Automation Test Cases
+### 🛠️ High-Complexity Regression (Hard Mode)
+| ID | Scenario | Tooling | Why it's "Hard Mode" | Status |
+|:---|:---|:---|:---|:---|
+| **REG-01** | Bypass Admin Footer Link | `JSExecutor` | Bypasses sticky footer overlays. | 🔴 To be Automated |
+| **REG-02** | Dynamic Room Management | `Select` Class | Handles non-standard dropdowns. | 🔴 To be Automated |
+| **REG-03** | Precision Calendar Booking | `Actions` Class | Mouse Drag & Drop for date range. | 🔴 To be Automated |
+| **REG-04** | Branded Room Image Audit | `File Upload` | targeted element screenshot capture. | 🔴 To be Automated |
+| **REG-05** | Stale Table Sync | `XPath Axes` | Verifies DOM state post-deletion. | 🔴 To be Automated |
 
-| ID     | Test Case             | Platform | Browser | Expected Result           | Status              |
-|:-------|:----------------------|:---------|:--------|:--------------------------|:--------------------|
-| MOB-01 | Verify Mobile Web Landing | Android (Pixel 8)         | Chrome  | "Book Now" link is visible and clickable      | **Automated**       |
+---
 
-### TC-M1: Verify Booking Site Responsiveness (Mobile Web)
-**Objective:** Ensure the Restful-Booker website loads correctly on a mobile device.
-1. **Launch** Chrome Browser on Pixel 8.
-2. **Navigate** to `https://automationintesting.online/` (The UI version of API).
-3. **Verify** the "Book Now" button is visible.
-4. **Capture** a screenshot of the mobile landing page.
-   **Expected Result:** The site scales correctly for mobile and the booking button is functional.
+## 📱 3. Mobile Automation
+*Layer: Mobile Web (Appium + Chrome)*
 
-### UI Automation Test Suite: Contact Management
-** 1. ** Contact Form Functionality
+| ID | Test Case | Platform | Browser | Expected Result | Status |
+|:---|:---|:---|:---|:---|:---|
+| **MOB-01** | Verify Mobile Landing Page | Android (Pixel 8) | Chrome | "Book Now" is visible/clickable | Automated ✅ |
 
-** ID ** ,Test Case,Layer,Element/Component,Expected Result,Status
-1. UI-01,Successful Contact Submission,UI,Contact Form,Success message displayed, Automated ✅
-2. UI-02,Submit with Invalid Email Format,UI,Email Input Field,Validation error (well-formed), Automated ✅
-3. UI-03,Submit with Empty Mandatory Fields,UI,Form Validation,Multiple error alerts appear, Automated ✅
-4. UI-04,Phone Number Length Validation,UI,Phone Input Field,Phone length error displayed, Automated ✅
-5. UI-05	Verify Branding Logo Visibility	UI	Header/Logo	Hotel logo is displayed, Automated ✅
+> **TC-M1 Logic:** Verifies site responsiveness by launching Chrome on a Pixel 8 emulator, navigating to the UI, and ensuring the "Book Now" button scales correctly to the viewport.
