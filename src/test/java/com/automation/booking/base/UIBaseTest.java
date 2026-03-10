@@ -11,6 +11,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.Duration;
 
+import static com.automation.booking.constant.FrameworkConstants.EXPLICIT_WAIT_TIME;
+
 public class UIBaseTest {
 
     protected WebDriver driver;
@@ -27,7 +29,7 @@ public class UIBaseTest {
         }
 
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(EXPLICIT_WAIT_TIME));
     }
 
     @AfterMethod
