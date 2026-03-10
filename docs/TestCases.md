@@ -31,8 +31,8 @@ This document serves as the live backlog and status tracker for the Automated Te
 ### 🛠️ High-Complexity Regression (Hard Mode)
 | ID | Scenario | Tooling | Why it's "Hard Mode" | Status |
 |:---|:---|:---|:---|:---|
-| **REG-01** | Bypass Admin Footer Link | `JSExecutor` | Bypasses sticky footer overlays. | 🔴 To be Automated |
-| **REG-02** | Dynamic Room Management | `Select` Class | Handles non-standard dropdowns. | 🔴 To be Automated |
+| **REG-01** | Bypass Admin Footer Link | `JSExecutor` | Bypasses sticky footer overlays. | Automated ✅ |
+| **REG-02** | Dynamic Room Management | `Select` Class | Handles non-standard dropdowns. | Automated ✅ |
 | **REG-03** | Precision Calendar Booking | `Actions` Class | Mouse Drag & Drop for date range. | 🔴 To be Automated |
 | **REG-04** | Branded Room Image Audit | `File Upload` | targeted element screenshot capture. | 🔴 To be Automated |
 | **REG-05** | Stale Table Sync | `XPath Axes` | Verifies DOM state post-deletion. | 🔴 To be Automated |
