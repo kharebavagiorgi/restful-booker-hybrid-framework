@@ -1,10 +1,12 @@
 package com.automation.booking.base;
 
+import com.automation.booking.constant.FrameworkConstants;
 import com.automation.booking.utils.JavaScriptUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
@@ -18,6 +20,7 @@ public class UIBaseTest {
 
     protected WebDriver driver;
     protected JavaScriptUtils jsUtils;
+    protected WebDriverWait wait;
 
     @BeforeMethod
     public void setUp() throws MalformedURLException {
@@ -30,10 +33,9 @@ public class UIBaseTest {
             driver = new ChromeDriver();
         }
 
+        wait = new WebDriverWait(driver, Duration.ofSeconds(EXPLICIT_WAIT_TIME));
         jsUtils = new JavaScriptUtils(driver);
-
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(EXPLICIT_WAIT_TIME));
     }
 
     @AfterMethod
